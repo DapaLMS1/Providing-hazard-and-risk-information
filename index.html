@@ -20,15 +20,20 @@
 
     .brand-dark-purple { background-color: #532A8C; }
     .brand-medium-purple { background-color: #C3ACE8; }
-    .brand-sidebar-bg { background-color: #C3ACE8; }
     .brand-off-white { background-color: #F2F2F2; }
     .text-brand-dark-purple { color: #532A8C; }
     .border-brand-medium-purple { border-color: #C3ACE8; }
 
     .tab-button {
-      @apply flex items-center p-4 rounded-lg text-lg font-medium transition-colors duration-200 ease-in-out;
       background-color: #C3ACE8;
       color: #1a1a1a;
+      border-radius: 0.5rem;
+      padding: 1rem;
+      display: flex;
+      align-items: center;
+      font-size: 1rem;
+      font-weight: 500;
+      transition: background-color 0.2s ease-in-out;
     }
 
     .tab-button:hover {
@@ -66,7 +71,7 @@
     <div class="flex flex-col md:flex-row flex-grow">
 
       <!-- Sidebar Tabs -->
-      <nav class="w-full md:w-1/3 p-4 md:p-6 brand-sidebar-bg md:rounded-bl-xl space-y-4">
+      <nav class="w-full md:w-1/3 p-4 md:p-6 bg-[#96BF78] md:rounded-bl-xl space-y-4">
         <button class="tab-button active" data-tab="implementation">
           <svg class="w-6 h-6 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
@@ -99,7 +104,7 @@
         </button>
       </nav>
 
-      <!-- Tab Content -->
+      <!-- Tab Content Area -->
       <main class="w-full md:w-2/3 p-4 md:p-6 brand-off-white">
         <div id="implementation" class="tab-content active p-6 rounded-lg border-2 border-brand-medium-purple shadow-md">
           <h2 class="text-2xl md:text-3xl font-semibold text-brand-dark-purple mb-4">Direct WHS Implementation & Oversight</h2>
@@ -111,8 +116,44 @@
           </ul>
         </div>
 
-        <!-- You can keep the rest of the tabs here (unchanged content)... -->
-        <!-- training, hazard-management, communication, resource-management -->
+        <div id="training" class="tab-content p-6 rounded-lg border-2 border-brand-medium-purple shadow-md">
+          <h2 class="text-2xl md:text-3xl font-semibold text-brand-dark-purple mb-4">Training & Mentorship</h2>
+          <p class="mb-4">A key aspect of your role is to support the development of your team in WHS. This includes:</p>
+          <ul class="list-disc list-inside space-y-2 text-gray-700">
+            <li><strong>On-the-Job Training:</strong> Practical WHS training.</li>
+            <li><strong>Guidance:</strong> Acting as the WHS go-to person.</li>
+            <li><strong>Skill Development:</strong> Supporting safe use of equipment.</li>
+          </ul>
+        </div>
+
+        <div id="hazard-management" class="tab-content p-6 rounded-lg border-2 border-brand-medium-purple shadow-md">
+          <h2 class="text-2xl md:text-3xl font-semibold text-brand-dark-purple mb-4">Hazard & Incident Management</h2>
+          <p class="mb-4">You play a vital role in the early detection and management of safety issues:</p>
+          <ul class="list-disc list-inside space-y-2 text-gray-700">
+            <li><strong>First Point of Contact:</strong> For reporting hazards.</li>
+            <li><strong>Initial Assessment:</strong> Before escalating.</li>
+            <li><strong>Corrective Actions:</strong> Implementing minor fixes.</li>
+          </ul>
+        </div>
+
+        <div id="communication" class="tab-content p-6 rounded-lg border-2 border-brand-medium-purple shadow-md">
+          <h2 class="text-2xl md:text-3xl font-semibold text-brand-dark-purple mb-4">Communication & Feedback</h2>
+          <p class="mb-4">Effective communication is essential for a strong WHS culture:</p>
+          <ul class="list-disc list-inside space-y-2 text-gray-700">
+            <li><strong>Two-Way Communication:</strong> Between staff and management.</li>
+            <li><strong>WHS Meeting Input:</strong> Offering practical insights.</li>
+            <li><strong>Documentation Support:</strong> Helping maintain WHS records.</li>
+          </ul>
+        </div>
+
+        <div id="resource-management" class="tab-content p-6 rounded-lg border-2 border-brand-medium-purple shadow-md">
+          <h2 class="text-2xl md:text-3xl font-semibold text-brand-dark-purple mb-4">Resource Management (Daily Level)</h2>
+          <p class="mb-4">You help manage WHS resources on a daily basis:</p>
+          <ul class="list-disc list-inside space-y-2 text-gray-700">
+            <li><strong>PPE Oversight:</strong> Ensuring proper use and supply.</li>
+            <li><strong>Supply Management:</strong> Safe handling and storage.</li>
+          </ul>
+        </div>
       </main>
     </div>
   </div>
@@ -137,9 +178,7 @@
         });
       });
 
-      if (tabButtons.length > 0) {
-        showTab(tabButtons[0].dataset.tab);
-      }
+      showTab('implementation'); // Set default
     });
   </script>
 </body>
