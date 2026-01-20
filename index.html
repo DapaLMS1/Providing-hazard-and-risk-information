@@ -8,177 +8,278 @@
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
 
-  <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet" />
-
   <style>
+    /* aNewSpring Integration: 
+       We use font-family: inherit to ensure the module matches 
+       the platform's "Look & Feel" settings automatically.
+    */
     body {
-      font-family: 'Open Sans', sans-serif;
-      background-color: #F2F2F2;
-      color: #333;
+      font-family: inherit; 
+      background-color: transparent; /* Allows aNS background to show through */
+      color: #334155;
+      -webkit-font-smoothing: antialiased;
     }
 
-    .brand-dark-purple { background-color: #532A8C; }
-    .brand-medium-purple { background-color: #C3ACE8; }
-    .brand-off-white { background-color: #F2F2F2; }
-    .text-brand-dark-purple { color: #532A8C; }
-    .border-brand-medium-purple { border-color: #C3ACE8; }
-
-    .tab-button {
-      background-color: #C3ACE8;
-      color: #1a1a1a;
-      border-radius: 0.5rem;
-      padding: 1rem;
+    .nav-item {
+      transition: all 0.2s ease;
+      position: relative;
+      color: #64748b;
+      padding-bottom: 1rem;
       display: flex;
       align-items: center;
-      font-size: 1rem;
-      font-weight: 500;
-      transition: background-color 0.2s ease-in-out;
+      gap: 0.5rem;
     }
 
-    .tab-button:hover {
-      background-color: #9D8ABB;
-    }
-
-    .tab-button.active {
+    .nav-item::after {
+      content: '';
+      position: absolute;
+      bottom: -1px;
+      left: 0;
+      width: 0;
+      height: 2px;
       background-color: #532A8C;
-      color: white;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      transition: width 0.3s ease;
     }
 
-    .tab-content {
+    .nav-item.active {
+      color: #532A8C;
+      font-weight: 600;
+    }
+
+    .nav-item.active::after {
+      width: 100%;
+    }
+
+    .content-pane {
       display: none;
-      border-radius: 0.5rem;
-      background-color: #F2F2F2;
+      animation: fadeIn 0.4s ease-out;
     }
 
-    .tab-content.active {
+    .content-pane.active {
       display: block;
     }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    
+    /* Ensure numbers and headers match the brand purple exactly */
+    .brand-purple-text { color: #532A8C; }
+    .brand-purple-bg { background-color: #532A8C; }
+    .brand-purple-light { color: #C3ACE8; }
   </style>
 </head>
-<body class="min-h-screen flex flex-col items-center p-4 md:p-8">
+<body class="p-4 md:p-8">
 
-  <div class="w-full max-w-[622px] brand-off-white rounded-xl shadow-lg overflow-hidden border-2 border-brand-medium-purple">
+  <div class="w-full max-w-7xl mx-auto">
     
     <!-- Header -->
-    <header class="brand-dark-purple text-white p-6 rounded-t-lg">
-      <h1 class="text-3xl md:text-4xl font-bold text-center mb-2">Dental Assistant / Supervisor WHS Responsibilities</h1>
-      <p class="text-center text-lg opacity-90">Explore the key WHS roles and duties of dental assistants.</p>
+    <header class="mb-8 border-b border-slate-100 pb-6 flex flex-col md:flex-row md:items-end justify-between gap-4">
+      <div>
+        <h2 class="text-2xl font-semibold text-slate-900">Dental Assistant Responsibilities</h2>
+      </div>
+      <p class="text-sm text-slate-400 font-medium italic">Select a category below to explore duties</p>
     </header>
 
-    <!-- Main Layout -->
-    <div class="flex flex-col md:flex-row flex-grow">
+    <!-- Navigation -->
+    <nav class="flex flex-wrap gap-x-8 gap-y-4 border-b border-slate-100 mb-10">
+      <button class="nav-item active text-sm uppercase tracking-wider" data-tab="implementation">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/></svg>
+        Implementation
+      </button>
+      <button class="nav-item text-sm uppercase tracking-wider" data-tab="training">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
+        Mentorship
+      </button>
+      <button class="nav-item text-sm uppercase tracking-wider" data-tab="hazard">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>
+        Hazard Mgmt
+      </button>
+      <button class="nav-item text-sm uppercase tracking-wider" data-tab="communication">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.105A9.76 9.76 0 0112 4c4.97 0 9 3.582 9 8z"/></svg>
+        Communication
+      </button>
+      <button class="nav-item text-sm uppercase tracking-wider" data-tab="resources">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/></svg>
+        Resources
+      </button>
+    </nav>
 
-      <!-- Sidebar Tabs -->
-      <nav class="w-full md:w-1/3 p-4 md:p-6 bg-[#96BF78] md:rounded-bl-xl space-y-4">
-        <button class="tab-button active" data-tab="implementation">
-          <svg class="w-10 h-10 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
-          </svg>
-          Direct WHS Implementation & Oversight
-        </button>
-        <button class="tab-button" data-tab="training">
-          <svg class="w-10 h-10 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13M12 6.253C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253M12 6.253C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.747 0-3.332.477-4.5 1.253"/>
-          </svg>
-          Training & Mentorship
-        </button>
-        <button class="tab-button" data-tab="hazard-management">
-          <svg class="w-10 h-10 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01M5.062 20h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
-          </svg>
-          Hazard & Incident Management
-        </button>
-        <button class="tab-button" data-tab="communication">
-          <svg class="w-10 h-10 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.105A9.76 9.76 0 0112 4c4.97 0 9 3.582 9 8z"/>
-          </svg>
-          Communication & Feedback
-        </button>
-        <button class="tab-button" data-tab="resource-management">
-          <svg class="w-12 h-12 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 11.5V14m0-2.5V8a2.5 2.5 0 115 0v2.5M7 14h10m-2.5 0H14m-2.5 0V14m-2.5 0H7m12-4V9a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-3.5a2.5 2.5 0 01-5 0z"/>
-          </svg>
-          Resource Management (Daily Level)
-        </button>
-      </nav>
-
-      <!-- Tab Content Area -->
-      <main class="w-full md:w-2/3 p-4 md:p-6 brand-off-white">
-        <div id="implementation" class="tab-content active p-6 rounded-lg border-2 border-brand-medium-purple shadow-md">
-          <h2 class="text-2xl md:text-3xl font-semibold text-brand-dark-purple mb-4">Direct WHS Implementation & Oversight</h2>
-          <p class="mb-4">As a Dental Assistant or Supervisor, you are crucial in ensuring WHS policies are put into practice daily. This involves:</p>
-          <ul class="list-disc list-inside space-y-2 text-gray-700">
-            <li><strong>Leading by Example:</strong> Demonstrating best WHS practices.</li>
-            <li><strong>Daily Monitoring:</strong> Ensuring policies are followed.</li>
-            <li><strong>Troubleshooting:</strong> Addressing minor WHS issues.</li>
-          </ul>
+    <!-- Content Area -->
+    <main>
+      
+      <!-- Implementation Tab -->
+      <div id="implementation" class="content-pane active">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-12">
+          <div class="md:col-span-1">
+            <h3 class="text-4xl font-bold text-slate-900 tracking-tight leading-none mb-4">Direct Implementation</h3>
+            <p class="text-slate-500 leading-relaxed">Ensuring safety policies translate into daily clinical practice through consistent oversight.</p>
+          </div>
+          <div class="md:col-span-2 space-y-8">
+            <div class="flex gap-6">
+              <span class="brand-purple-light font-bold text-4xl leading-none">01</span>
+              <div>
+                <h4 class="font-bold text-slate-900 mb-1">Leading by Example</h4>
+                <p class="text-slate-500 text-sm leading-relaxed">Your consistent adherence to safety protocols sets the standard for the entire team.</p>
+              </div>
+            </div>
+            <div class="flex gap-6">
+              <span class="brand-purple-light font-bold text-4xl leading-none">02</span>
+              <div>
+                <h4 class="font-bold text-slate-900 mb-1">Daily Monitoring</h4>
+                <p class="text-slate-500 text-sm leading-relaxed">Active observation ensures infection control and workplace safety are never compromised.</p>
+              </div>
+            </div>
+            <div class="flex gap-6">
+              <span class="brand-purple-light font-bold text-4xl leading-none">03</span>
+              <div>
+                <h4 class="font-bold text-slate-900 mb-1">Troubleshooting</h4>
+                <p class="text-slate-500 text-sm leading-relaxed">Resolving minor hazards immediately before they escalate into significant safety risks.</p>
+              </div>
+            </div>
+          </div>
         </div>
+      </div>
 
-        <div id="training" class="tab-content p-6 rounded-lg border-2 border-brand-medium-purple shadow-md">
-          <h2 class="text-2xl md:text-3xl font-semibold text-brand-dark-purple mb-4">Training & Mentorship</h2>
-          <p class="mb-4">Support your team by:</p>
-          <ul class="list-disc list-inside space-y-2 text-gray-700">
-            <li><strong>On-the-Job Training:</strong> Practical, hands-on support.</li>
-            <li><strong>Guidance:</strong> Clear answers to WHS questions.</li>
-            <li><strong>Skill Development:</strong> Ensuring safe, up-to-date practices.</li>
-          </ul>
+      <!-- Mentorship Tab -->
+      <div id="training" class="content-pane">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-12">
+          <div class="md:col-span-1">
+            <h3 class="text-4xl font-bold text-slate-900 tracking-tight leading-none mb-4">Mentorship</h3>
+            <p class="text-slate-500 leading-relaxed">Empower colleagues by sharing expertise and maintaining a culture of safety.</p>
+          </div>
+          <div class="md:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-8">
+            <section>
+              <div class="flex items-center gap-2 mb-3">
+                <svg class="w-4 h-4 brand-purple-text" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+                <h4 class="text-xs font-bold brand-purple-text uppercase tracking-widest">On-the-Job</h4>
+              </div>
+              <p class="text-slate-600 text-sm leading-relaxed">Provide practical training for new staff members, focusing on hands-on safety maneuvers.</p>
+            </section>
+            <section>
+              <div class="flex items-center gap-2 mb-3">
+                <svg class="w-4 h-4 brand-purple-text" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                <h4 class="text-xs font-bold brand-purple-text uppercase tracking-widest">Resource</h4>
+              </div>
+              <p class="text-slate-600 text-sm leading-relaxed">Act as the primary point of contact for team members regarding safety equipment and procedures.</p>
+            </section>
+          </div>
         </div>
+      </div>
 
-        <div id="hazard-management" class="tab-content p-6 rounded-lg border-2 border-brand-medium-purple shadow-md">
-          <h2 class="text-2xl md:text-3xl font-semibold text-brand-dark-purple mb-4">Hazard & Incident Management</h2>
-          <p class="mb-4">Your responsibilities include:</p>
-          <ul class="list-disc list-inside space-y-2 text-gray-700">
-            <li><strong>First Point of Contact:</strong> For hazard reports.</li>
-            <li><strong>Initial Assessment:</strong> Review issues before escalation.</li>
-            <li><strong>Corrective Actions:</strong> Apply fixes immediately when safe.</li>
-          </ul>
+      <!-- Hazard Tab -->
+      <div id="hazard" class="content-pane">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-12">
+          <div class="md:col-span-1">
+            <h3 class="text-4xl font-bold text-slate-900 tracking-tight leading-tight mb-4">Hazard and Incident Management</h3>
+            <p class="text-slate-500 leading-relaxed">Proactive identification and rapid response to prevent workplace injuries.</p>
+          </div>
+          <div class="md:col-span-2 space-y-6">
+            <div class="flex items-start gap-4 p-4 rounded-xl hover:bg-slate-50 transition-colors">
+              <svg class="w-5 h-5 brand-purple-text mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/></svg>
+              <p class="text-slate-600 leading-relaxed">Serve as the first point of contact for team members reporting potential workplace hazards.</p>
+            </div>
+            <div class="flex items-start gap-4 p-4 rounded-xl hover:bg-slate-50 transition-colors">
+              <svg class="w-5 h-5 brand-purple-text mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"/></svg>
+              <p class="text-slate-600 leading-relaxed">Evaluate the severity of issues and determine if escalation to management is required.</p>
+            </div>
+            <div class="flex items-start gap-4 p-4 rounded-xl hover:bg-slate-50 transition-colors">
+              <svg class="w-5 h-5 brand-purple-text mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.121 14.121L19 19m-7-7l7-7m-7 7l-2.879 2.879M12 12L9.121 9.121m0 5.758L5 19m0-14l4.121 4.121"/></svg>
+              <p class="text-slate-600 leading-relaxed">Implement immediate fixes for low-risk hazards, such as spills or obstructions.</p>
+            </div>
+          </div>
         </div>
+      </div>
 
-        <div id="communication" class="tab-content p-6 rounded-lg border-2 border-brand-medium-purple shadow-md">
-          <h2 class="text-2xl md:text-3xl font-semibold text-brand-dark-purple mb-4">Communication & Feedback</h2>
-          <p class="mb-4">Maintain open communication:</p>
-          <ul class="list-disc list-inside space-y-2 text-gray-700">
-            <li><strong>Two-Way Dialogue:</strong> Encourage questions and input.</li>
-            <li><strong>WHS Meetings:</strong> Provide valuable perspectives.</li>
-            <li><strong>Documentation:</strong> Assist in maintaining accurate records.</li>
-          </ul>
+      <!-- Communication Tab -->
+      <div id="communication" class="content-pane">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-12">
+          <div class="md:col-span-1">
+            <h3 class="text-4xl font-bold text-slate-900 tracking-tight leading-none mb-4">Communication</h3>
+            <p class="text-slate-500 leading-relaxed">Ensuring information flows both ways to keep the entire clinic protected.</p>
+          </div>
+          <div class="md:col-span-2">
+            <div class="p-8 bg-slate-50 rounded-2xl">
+              <h4 class="text-lg font-semibold text-slate-900 mb-4 italic">"Safety is a dialogue, not a monologue."</h4>
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mt-6">
+                <div>
+                  <h5 class="font-bold text-xs uppercase brand-purple-text mb-2 flex items-center gap-2">
+                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/></svg>
+                    Review Meetings
+                  </h5>
+                  <p class="text-sm text-slate-600">Active participation in safety reviews to provide clinical ground-level feedback.</p>
+                </div>
+                <div>
+                  <h5 class="font-bold text-xs uppercase brand-purple-text mb-2 flex items-center gap-2">
+                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg>
+                    Reporting
+                  </h5>
+                  <p class="text-sm text-slate-600">Assisting in accurate maintenance of logs, incident reports, and check-sheets.</p>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
+      </div>
 
-        <div id="resource-management" class="tab-content p-6 rounded-lg border-2 border-brand-medium-purple shadow-md">
-          <h2 class="text-2xl md:text-3xl font-semibold text-brand-dark-purple mb-4">Resource Management (Daily Level)</h2>
-          <p class="mb-4">Ensure all tools and supplies support WHS:</p>
-          <ul class="list-disc list-inside space-y-2 text-gray-700">
-            <li><strong>PPE Oversight:</strong> Confirm availability and correct use.</li>
-            <li><strong>Safe Storage:</strong> Manage chemicals and tools correctly.</li>
-          </ul>
+      <!-- Resources Tab -->
+      <div id="resources" class="content-pane">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-12">
+          <div class="md:col-span-1">
+            <h3 class="text-4xl font-bold text-slate-900 tracking-tight leading-none mb-4">Resources</h3>
+            <p class="text-slate-500 leading-relaxed">Managing the daily tools and supplies that make safe work possible.</p>
+          </div>
+          <div class="md:col-span-2 flex flex-col gap-6">
+            <div class="flex items-center justify-between p-6 border border-slate-100 rounded-xl hover:bg-slate-50 transition-colors">
+              <div class="flex items-center gap-4">
+                <svg class="w-5 h-5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+                <span class="font-bold text-slate-800">PPE Oversight</span>
+              </div>
+              <span class="text-slate-500 text-sm">Regular audits and usage compliance</span>
+            </div>
+            <div class="flex items-center justify-between p-6 border border-slate-100 rounded-xl hover:bg-slate-50 transition-colors">
+              <div class="flex items-center gap-4">
+                <svg class="w-5 h-5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/></svg>
+                <span class="font-bold text-slate-800">Safe Storage</span>
+              </div>
+              <span class="text-slate-500 text-sm">Chemical organization and labeling</span>
+            </div>
+          </div>
         </div>
-      </main>
-    </div>
+      </div>
+
+    </main>
   </div>
 
   <script>
     document.addEventListener('DOMContentLoaded', () => {
-      const tabButtons = document.querySelectorAll('.tab-button');
-      const tabContents = document.querySelectorAll('.tab-content');
+      const navItems = document.querySelectorAll('.nav-item');
+      const contentPanes = document.querySelectorAll('.content-pane');
 
       const showTab = (tabId) => {
-        tabButtons.forEach(button => button.classList.remove('active'));
-        tabContents.forEach(content => content.classList.remove('active'));
+        navItems.forEach(item => {
+          if (item.dataset.tab === tabId) {
+            item.classList.add('active');
+          } else {
+            item.classList.remove('active');
+          }
+        });
 
-        document.querySelector(`[data-tab="${tabId}"]`).classList.add('active');
-        document.getElementById(tabId).classList.add('active');
+        contentPanes.forEach(pane => {
+          if (pane.id === tabId) {
+            pane.classList.add('active');
+          } else {
+            pane.classList.remove('active');
+          }
+        });
       };
 
-      tabButtons.forEach(button => {
-        button.addEventListener('click', () => {
-          const tabId = button.dataset.tab;
-          showTab(tabId);
+      navItems.forEach(item => {
+        item.addEventListener('click', () => {
+          showTab(item.dataset.tab);
         });
       });
-
-      showTab('implementation'); // Set default
     });
   </script>
 </body>
